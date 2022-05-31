@@ -1,22 +1,35 @@
 using NUnit.Framework;
+using System;
 
 namespace Summator.Test
 {
-    public class Tests
+    [TestFixture]
+    public class SummatorTests
     {
+
+        private Summator summator;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.summator = new Summator();
+            System.Console.WriteLine($"Test started: " + DateTime.Now);
+        }
+
         [Test]
         public void Test_Sum_TwoPossitiveNumbers()
         {
-            long actual = Summator.Sum(new long[] { 5, 7});
+            long actual = summator.Sum(new long[] { 5, 7 });
             long expected = 12;
 
             Assert.That(expected == actual);
         }
 
         [Test]
+        [Category("Critical")]
         public void Test_Sum_OnePossitiveNumbers()
         {
-            long result = Summator.Sum(new long[] { 5 });
+            long result = summator.Sum(new long[] { 5 });
 
             Assert.That(result == 5);
         }
@@ -24,7 +37,7 @@ namespace Summator.Test
         [Test]
         public void Test_Sum_TwoNegativeNumbers()
         {
-            long actual = Summator.Sum(new long[] { -7, -9 });
+            long actual = summator.Sum(new long[] { -7, -9 });
             long expected = -16;
             
             Assert.That(actual == expected);
@@ -33,7 +46,7 @@ namespace Summator.Test
         [Test]
         public void Test_Sum_EmptyArray()
         {
-            long result = Summator.Sum(new long[] { });
+            long result = summator.Sum(new long[] { });
 
             Assert.That(result == 0);
         }
@@ -41,7 +54,7 @@ namespace Summator.Test
         [Test]
         public void Test_Sum_BigValues()
         {
-            long actual = Summator.Sum(new long[] {2000000000, 2000000000, 2000000000 });
+            long actual = summator.Sum(new long[] {2000000000, 2000000000, 2000000000 });
 
             Assert.AreEqual(actual, 6000000000);
         }
@@ -49,13 +62,20 @@ namespace Summator.Test
         [Test]
         public void Test_Average_TwoPossitiveNumbers()
         {
-           long actual = Summator.Average(new long[] { 5,7 });
+           double actual = Summator.Average(new double[] { 5, 8 });
 
-            long expected = 6;
+            double expected = 6.5;
 
             Assert.That(expected == actual);
 
          
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            summator = null;
+            System.Console.WriteLine($"Test ended: " + DateTime.Now);
         }
     }
 }
